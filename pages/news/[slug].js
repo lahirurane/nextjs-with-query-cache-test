@@ -1,28 +1,37 @@
-import Head from 'next/head'
-import styles from '../../styles/Home.module.css'
-import moment from 'moment'
-import { useRouter } from 'next/router'
+import Head from 'next/head';
+import styles from '../../styles/Home.module.css';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 
-function Home({now}) {
-  
-  const router = useRouter()
-  const { slug } = router.query
+function Home({ now }) {
+  const router = useRouter();
+  const { slug } = router.query;
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href='https://nextjs.org'>Next.js!</a>
         </h1>
 
         <p className={styles.description}>
-          Generated <code className={styles.code}>/{slug}</code> at {' '}
-          <code className={styles.code}>{moment(now).fromNow()} [{(Date.now() - now) / 1000} seconds]</code>{!router.isFallback && <> as fallback</>}.
+          Generated <code className={styles.code}>/{slug}</code> at{' '}
+          <code className={styles.code}>
+            {moment(now).fromNow()} [{(Date.now() - now) / 1000} seconds]
+          </code>
+          {!router.isFallback && <> as fallback</>}.
+        </p>
+
+        <p>
+          Router.query <pre>{JSON.stringify(router.query, null, 2)}</pre>
+        </p>
+        <p>
+          Router.asPath <pre>{JSON.stringify(router.asPath, null, 2)}</pre>
         </p>
 
         {/* <div className={styles.grid}>
@@ -58,22 +67,23 @@ function Home({now}) {
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
         </a>
       </footer>
     </div>
-  )
+  );
 }
 
-
 export async function getStaticProps() {
-  const res = await fetch('https://nextjs-time-api.vercel-support.app/api/time')
-  const {now} = await res.json()
+  const res = await fetch(
+    'https://nextjs-time-api.vercel-support.app/api/time'
+  );
+  const { now } = await res.json();
 
   return {
     props: {
@@ -83,16 +93,15 @@ export async function getStaticProps() {
     // - When a request comes in
     // - At most once every 180 seconds
     revalidate: 180, // In seconds
-  }
+  };
 }
 
 // This function gets called at build time
 export async function getStaticPaths() {
   return {
     fallback: true,
-    paths: []
-  }
+    paths: [],
+  };
 }
 
-
-export default Home
+export default Home;
